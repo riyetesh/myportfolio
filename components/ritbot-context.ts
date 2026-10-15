@@ -122,7 +122,6 @@ export const SECTION_LINES: Record<string, string> = {
   posts: "Nine posts, all real work.",
   reels: "Reels. The quick version of everything.",
   about: "The long story lives here.",
-  gallery: "Life between the projects.",
 };
 
 export const CASE_STUDY_LINE = "This is the important part.";

@@ -1426,8 +1426,6 @@ export default function Home() {
             <TechStack />
             <CapabilityTree />
           </section>
-        ) : activeTab === "gallery" ? (
-          <section className="gallery-panel"><div className="gallery-intro"><p className="eyebrow">Gallery</p><h2>Around the work.</h2><p>Campus in Turku, project moments and the people along the way.</p></div><div className="gallery-grid">{[1,2,3,4,5,6].map((number) => <div className="gallery-tile" key={number}><img src={`/gallery/${number}.jpg`} alt={`Gallery placeholder ${number}`} /><span>{String(number).padStart(2, "0")}</span></div>)}</div></section>
         ) : (
           <section className="post-grid">
             {posts.map((post, index) => {
@@ -1767,9 +1765,8 @@ export default function Home() {
                       <I n="mark" on={isSaved} />
                     </button>
                   </div>
-                  <p className="post-likes">
-                    <b>{post.appreciations + (isLiked ? 1 : 0)} like{post.appreciations + (isLiked ? 1 : 0) === 1 ? "" : "s"}</b>
-                  </p>
+                  {/* Like counts stay hidden on posts: the heart still fills and
+                      bursts, but no "0 likes" line is displayed. */}
                   <p className="post-caption">
                     <b>riteshyadav</b> {post.caption}
                   </p>

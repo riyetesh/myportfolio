@@ -280,8 +280,6 @@ const BRANCHES: Branch[] = [
   },
 ];
 
-const TOTAL_LEAVES = BRANCHES.reduce((sum, branch) => sum + branch.leaves.length, 0);
-
 export function CapabilityTree() {
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -488,11 +486,7 @@ export function CapabilityTree() {
                 </button>
               )}
             </>
-          ) : (
-            <p className="ctree-panel-empty">
-              {TOTAL_LEAVES} skills on {BRANCHES.length} branches. Every leaf links to work, not claims.
-            </p>
-          )}
+          ) : null}
         </aside>
       </div>
     </section>
@@ -562,7 +556,6 @@ const CTREE_CSS = `
 .ctree-evidence b { font-size: 0.78rem; color: #111; }
 .ctree-evidence span { font-size: 0.72rem; color: #666; }
 .ctree-unpin { margin-top: 10px; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 12px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
-.ctree-panel-empty { color: #888; font-size: 0.78rem; margin: 0; line-height: 1.5; }
 
 @media (min-width: 900px) {
   .ctree-stage { grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr); }

@@ -289,7 +289,6 @@
 .profilepic { overflow: hidden; padding: 4px; background: conic-gradient(from 205deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75); }
 .profilepic > img { border: 4px solid #fff; }
 .profilepic.story-viewed { background: #b9b9b9; }
-.gallery-tile input { display: none; }
 .site-footer { grid-column: 2; padding: 18px 28px 26px; color: #8a8c91; border-top: 1px solid var(--line); font-size: .68rem; }
 .bottom { display: none !important; }
 .feed { min-width: 0; width: 100%; }
@@ -2314,7 +2313,6 @@ a {
 .profilepic { overflow: hidden; padding: 4px; background: conic-gradient(from 205deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75); }
 .profilepic > img { border: 4px solid #fff; }
 .profilepic.story-viewed { background: #b9b9b9; }
-.gallery-tile input { display: none; }
 @media (max-width: 1040px) {
   .app { grid-template-columns: 82px minmax(0, 650px); max-width: 760px; }
   .rail-below { display: block !important; grid-column: 2; }
@@ -3048,7 +3046,6 @@ textarea {
 .about-intro h2,
 .about-panel h2,
 .moodboard-hero h2,
-.gallery-intro h2,
 .story-copy h2,
 .dialog h2,
 .mood-card h3,
@@ -3291,6 +3288,14 @@ textarea {
   border-top: 1px solid var(--line);
   background: var(--paper);
 }
+/* Wide screens: four square columns instead of three, so the tiles read as a
+   medium grid rather than oversized panels. Narrow screens keep three columns,
+   where a fourth would crowd the tiles into thumbnails. */
+@media (min-width: 1000px) {
+  .post-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
 .grid-tile {
   position: relative;
   display: block;
@@ -3457,15 +3462,11 @@ textarea {
   color: #ed4956;
   fill: currentColor;
 }
-.post-likes,
 .post-caption {
   margin: 0;
   padding: 0 14px;
   font-size: 0.82rem;
   line-height: 1.4;
-}
-.post-likes {
-  margin-top: 2px;
 }
 .post-caption {
   margin-top: 5px;

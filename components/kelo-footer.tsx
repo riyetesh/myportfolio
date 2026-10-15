@@ -150,7 +150,6 @@ export function KeloFooter({
             <motion.div className="kelo-col kelo-nav" variants={itemVariants}>
               <button onClick={() => onNavigate?.("posts")}>Posts</button>
               <button onClick={() => onNavigate?.("reels")}>Reels</button>
-              <button onClick={() => onNavigate?.("gallery")}>Gallery</button>
               <button onClick={() => onNavigate?.("about")}>About</button>
               <a href="mailto:riyetesh@gmail.com">
                 Contact <span className="kelo-arrow">&#8599;</span>
