@@ -16,10 +16,8 @@ const GREETINGS = [
   "I'm Ritbot. Think of me as Ritesh's CV that talks back. What do you want to know?",
 ];
 import { RitbotFace, type RitbotMood } from "../components/ritbot";
-import { Projects } from "../components/projects";
 import { CapabilityTree } from "../components/capability-tree";
-import { EggHint, KonamiOverlay, TerminalOverlay, useKonami, useLongPress } from "../components/easter-eggs";
-import type { Project as CaseProject } from "../components/projects-data";
+import { EggHint, KonamiOverlay, TerminalOverlay, useKonami } from "../components/easter-eggs";
 import { useRitbotBrain } from "../components/use-ritbot-brain";
 import { useRitbotSpeech } from "../components/use-ritbot-speech";
 import { reactToContext, reactToStoryPage, CASE_STUDY_LINE } from "../components/ritbot-context";
@@ -65,71 +63,53 @@ type CvItem = {
 };
 
 // To add a post: append one entry here. The grid, viewer, likes and comments all
-// update automatically. Drop the photo at public/posts/<n>.jpg and set
-// image: "/posts/<n>.jpg", or leave image: "" to show the placeholder tile.
+// update automatically. Photos live in public/posts and are named after their
+// caption, so "Started my Master's at the Turun yliopisto - University of Turku"
+// is served from /posts/started-my-masters-at-turun-yliopisto.jpg — keep the file
+// name in step with image: below. Leave image: "" to show the placeholder tile.
+// place and time are only rendered when set, so they can stay empty.
 const posts: Post[] = [
   {
-    caption: "helloDoc, AI healthcare platform: doctors connect with patients, predict diseases and prescribe medication.",
-    place: "Espoo, Finland",
-    time: "2 DAYS AGO",
+    caption: "Started my Master's at the Turun yliopisto - University of Turku",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only, starts at 0, +1 per like, no fake seed counts
-    image: "",
+    image: "/posts/started-my-masters-at-turun-yliopisto.jpg",
   },
   {
-    caption: "Attendsure, facial-recognition attendance that runs on low-end hardware.",
-    place: "Remote",
-    time: "5 DAYS AGO",
+    caption: "Sayonara NSS!! Grateful for the experiences, the lessons, and the friendships.",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only
-    image: "",
+    image: "/posts/sayonara-nss.jpg",
   },
   {
-    caption: "Therapeace, co-founded a digital well-being app for everyday mindfulness.",
-    place: "Remote",
-    time: "1 WEEK AGO",
+    caption: "I am officially an Enginner now! Gradudated in Computer Science Engineering from KIIT",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only
-    image: "",
+    image: "/posts/i-am-officially-an-engineer-now.jpg",
   },
   {
-    caption: "Connectogram, a challenge-based social platform built and shipped end to end.",
-    place: "Kathmandu, Nepal",
-    time: "2 WEEKS AGO",
+    caption: "Best volunteer award.",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only
-    image: "",
+    image: "/posts/best-volunteer-award.jpg",
   },
   {
-    caption: "University of Turku, MSc in ICT, data analytics major, automation engineering minor.",
-    place: "Turku, Finland",
-    time: "3 WEEKS AGO",
+    caption: "Heritage Walk with international friends.",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only
-    image: "",
+    image: "/posts/heritage-walk-with-international-friends.jpg",
   },
   {
-    caption: "AWS Academy Cloud Foundations, Semesters 1 & 2, certified.",
-    place: "Online",
-    time: "1 MONTH AGO",
+    caption: "Not me but you.",
+    place: "",
+    time: "",
     appreciations: 0, // real likes only
-    image: "",
-  },
-  {
-    caption: "Gadget Mart, shipped 8+ client software projects as a part-time developer.",
-    place: "Butwal, Nepal",
-    time: "1 MONTH AGO",
-    appreciations: 0, // real likes only
-    image: "",
-  },
-  {
-    caption: "Rotaract Butwal, leading volunteer teams across community programmes.",
-    place: "Butwal, Nepal",
-    time: "2 MONTHS AGO",
-    appreciations: 0, // real likes only
-    image: "",
-  },
-  {
-    caption: "KIIT, BTech in CSE, CGPA 8.62/10 on a fully funded COMPEX scholarship.",
-    place: "Bhubaneswar, India",
-    time: "2 MONTHS AGO",
-    appreciations: 0, // real likes only
-    image: "",
+    image: "/posts/not-me-but-you.jpg",
   },
 ];
 
@@ -947,16 +927,6 @@ export default function Home() {
       ritbotSay(reaction.line, reaction.mood, `post:${reaction.key}`);
     }
   };
-  const reactToCase = (project: CaseProject, kind: "open" | "contribution" | "result") => {
-    const reaction = reactToContext(project.title, "post");
-    if (kind === "contribution") {
-      ritbotSay(CASE_STUDY_LINE, "attentive", `case:${project.title}`);
-    } else if (kind === "result") {
-      ritbotSay("Shipped and it shows.", "excited", `result:${project.title}`);
-    } else {
-      ritbotSay(reaction.line, reaction.mood, `project:${reaction.key}`);
-    }
-  };
   const closeStory = () => {
     setActiveStory(null);
     setActiveStoryPage(0);
@@ -1147,11 +1117,6 @@ export default function Home() {
   useKonami(() => {
     markEgg("Developer mode");
     setKonamiOpen(true);
-  });
-  const projectHold = useLongPress(() => {
-    markEgg("Technical mode");
-    setNotice("Technical mode unlocked. Every case study now shows its full stack.");
-    window.setTimeout(() => setNotice(""), 2600);
   });
   // The terminal hides behind the hint panel's last line.
   const openTerminal = () => {
@@ -1405,16 +1370,6 @@ export default function Home() {
 
 {activeTab === "posts" ? (
           <>
-            <Projects
-              onOpenProject={reactToCase}
-              onHoverProject={(project) => {
-                if (!project || chatOpen) return;
-                const reaction = reactToContext(project.title, "post");
-                ritbotSay(reaction.line, reaction.mood, `hover:${reaction.key}`);
-              }}
-              holdHandlers={projectHold}
-              techUnlocked={eggsFound.includes("Technical mode")}
-            />
             <section className="post-grid">
             {posts.map((post, index) => {
               const showPlaceholder = !post.image || brokenImages.includes(index);
@@ -1889,7 +1844,7 @@ export default function Home() {
               </button>
               <b>
                 Ritbot
-                <small>his CV · my whole personality</small>
+                <small>Ask me about Ritesh</small>
               </b>
             </span>
             <button onClick={closeChat} aria-label="Close chat">

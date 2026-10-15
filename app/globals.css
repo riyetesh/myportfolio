@@ -2862,6 +2862,10 @@ body { padding-bottom: 0 !important; }
   gap: 10px;
   padding: 14px;
   overflow-y: auto;
+  /* The conversation scrolls vertically only. The jelly chips carry an 80px
+     decorative goo halo (inset: -80px) that would otherwise register as
+     horizontal overflow and raise a scrollbar on this scroll container. */
+  overflow-x: hidden;
 }
 /* Conversation legibility: text inside bubbles keeps a clean plate when hovered or selected. */
 .chatbot-log ::selection {
